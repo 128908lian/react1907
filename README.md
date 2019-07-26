@@ -1,4 +1,4 @@
-###技术要点(简历)
+### 技术要点(简历)
     - react-router-dom
     - redux
     - react-redux
@@ -13,10 +13,10 @@
     - babel-plugin-import 按需加载  -D
     - http-proxy-middleware  -D
 
-###项目配置 
+### 项目配置 
     - react-app-rewired 
 
-###项目依赖
+### 项目依赖
 ```javascript
     yarn add antd react-router-dom  redux react-redux redux-thunk redux-actions styled-components whatwg-fetch react-loadable
 ```
@@ -26,12 +26,12 @@
          yarn add babel-plugin-import http-proxy-middleware react-app-rewired customize-cra --dev
     ```
 
-###项目启动
+### 项目启动
     ```javascript
         yarn start
     ```
 
-###项目打包
+### 项目打包
     ```javascript
         yarn build
     ```
