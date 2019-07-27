@@ -22,9 +22,9 @@
 ```
 
 ### 环境依赖
-    ```javascript
+```javascript
          yarn add babel-plugin-import http-proxy-middleware react-app-rewired customize-cra --dev
-    ```
+```
 
 ### 项目启动
     ```javascript
