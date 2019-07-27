@@ -15,7 +15,7 @@ export default (routes)=>routes.map((item,index)=>{
 
 
     if(item.children){
-      return fn(item.children);
+       return fn(item.children);
     }else{
        return  <Route path={item.path} key={index} render={(props)=>{
                     return <item.component {...props}/>
