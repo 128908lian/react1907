@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react'
-import { Table, Divider, Tag } from 'antd'
+import { Table, Divider, Tag ,Button} from 'antd'
 import {booksList} from "@api/books.js"
 import ModelCom from "@components/model"
-
+import { Card } from 'antd';
+import XLSX from "xlsx"
 export default class BooksList extends Component {
   constructor(){
     super();
@@ -69,7 +70,12 @@ export default class BooksList extends Component {
       let {data,columns} = this.state;
         return (
           <Fragment>
-              <Table columns={columns} dataSource={data} />
+             <Card bordered={false} extra={<Button onClick={this.handleExportXlsx.bind(this)}>导出表格</Button>}/>
+              <Table columns={columns} dataSource={data} pagination={{
+                pageSize:5,
+                total:200,
+                onChange:this.handlePageChange.bind(this)
+              }}/>
               <ModelCom ref="model"/>
           </Fragment>
         )
@@ -88,4 +94,57 @@ export default class BooksList extends Component {
     handleModify(record){
       this.refs.model.showModal(record);
     }
+    //分页接口
+    handlePageChange(page,limit){
+      console.log(page,limit)
+    }
+    //导出表格
+    handleExportXlsx(){
+      let data = [
+      ["书籍名称",
+      "书籍Logo",
+      "书籍作者",
+      "书籍状态",
+      "书籍类型"]
+    ]
+
+
+    for(var i=0;i<this.state.data.length;i++){
+      let arr = [];
+      for(var key in this.state.data[i]){
+        arr.push(this.state.data[i][key])
+      }
+      data.push(arr);
+    }
+
+
+      const ws = XLSX.utils.aoa_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
+      /* generate XLSX file and send to client */
+      XLSX.writeFile(wb, "书籍列表.xlsx")
+    }
 }
+
+
+/*
+  1 2 3 4 5 6 7 8 9
+
+  每页显示多少条  limit  5   当前页数 page
+
+
+  skip((page-1)*limit).limit(limit)
+        0     5
+        5     5
+        10    5
+
+
+
+ 
+  1000
+
+
+
+
+
+*/

@@ -4,24 +4,34 @@ import ModelForm from "@components/modelForm"
 export default class ModelCom extends Component {
     state = {
         visible: false,
+        record:{}
       };
     
-      showModal = () => {
+      showModal = (record) => {
         this.setState({
           visible: true,
+          record
+        });
+      };
+
+      handleCancel = e => {
+      
+        this.setState({
+          visible: false,
         });
       };
     
      
     render() {
-        const { visible} = this.state;
+        const { visible,record} = this.state;
         return (
             <Modal
           title="修改书籍信息"
           visible={visible}
+          onCancel={this.handleCancel}
           footer={null}
         >
-          <ModelForm/>
+          <ModelForm record={record}/>
         </Modal>
         )
     }

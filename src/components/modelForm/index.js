@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Icon, Input, Button } from 'antd';
-
+import SelectStatus from "../select"
+import Checkboxcom from "../checkbox"
  class ModelForm extends Component {
       componentDidMount() {
         // To disabled submit button at the beginning.
@@ -17,19 +18,23 @@ import { Form, Icon, Input, Button } from 'antd';
         });
       };
     render() {
+        let {booksAuth,booksName,booksStatus,booksTag} = this.props.record
         const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form;
         const usernameError = isFieldTouched('booksName') && getFieldError('booksName');
         const passwordError = isFieldTouched('booksAuth') && getFieldError('booksAuth');
 
         return (
-            <Form layout="horizontal" onSubmit={this.handleSubmit}>
-            <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
+            <Form layout="horizontal" onSubmit={this.handleSubmit}  labelCol={{sm: { span: 5 }}}  wrapperCol={{sm: { span: 18 },}}>
+            <Form.Item
+               label="书籍名称"
+               validateStatus={usernameError ? 'error' : ''} 
+               help={usernameError || ''}>
 
               {getFieldDecorator('booksName', {
                 rules: [
-                        { required: true, message: '书籍的作者是必须填写的' },
-                        {validator:this.handlevalidator}
-                    ],
+                  { required: true },
+                  { validator:this.handlevalidator}],
+                initialValue:booksName
               })(
                 <Input
                   prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -37,15 +42,38 @@ import { Form, Icon, Input, Button } from 'antd';
                 />,
               )}
             </Form.Item>
-            <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
+            <Form.Item 
+              label="书籍作者"
+              validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
               {getFieldDecorator('booksAuth', {
                 rules: [{ required: true, message: '书籍的作者是必须填写的' }],
+                initialValue:booksAuth
               })(
                 <Input
                   prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   type="text"
                   placeholder="请输入书籍作者"
                 />,
+              )}
+            </Form.Item>
+            <Form.Item 
+              label="书籍状态"
+              validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
+              {getFieldDecorator('booksStatus',{
+                rules:[ { required: true }],
+                 initialValue:booksStatus
+              })(
+               <SelectStatus/>
+              )}
+            </Form.Item>
+            <Form.Item 
+              label="书籍类型"
+              validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
+              {getFieldDecorator('booksTag',{
+                 rules:[ { required: true }],
+                 initialValue:booksTag
+              })(
+                <Checkboxcom/>
               )}
             </Form.Item>
             <Form.Item>
@@ -57,11 +85,11 @@ import { Form, Icon, Input, Button } from 'antd';
         )
     }
     handlevalidator(rule, value, callback){
-        if(value!='123'){
-            callback('内容有误');
-        }else{
-            callback();
+        if(!value){
+            callback('书籍的作者是必须填写的');
         }
+        callback()
+
     }
 }
 
